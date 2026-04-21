@@ -5,6 +5,7 @@ Official Go client for the [Insights Astrology API](https://tuffys-ai-astrology.
 **Zero runtime dependencies.** Only `net/http` and `encoding/json` from the standard library.
 
 <p align="center">
+  <a href="https://github.com/omkarjaliparthi/tuffys-astrology-go/actions/workflows/ci.yml"><img src="https://github.com/omkarjaliparthi/tuffys-astrology-go/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://pkg.go.dev/github.com/omkarjaliparthi/tuffys-astrology-go/tuffys"><img src="https://img.shields.io/badge/pkg.go.dev-docs-007d9c?style=flat-square" /></a>
   <a href="https://tuffys-ai-astrology.vercel.app/docs/api"><img src="https://img.shields.io/badge/API_docs-Scalar-6E56CF?style=flat-square" /></a>
   <a href="https://tuffys-ai-astrology.vercel.app/pricing"><img src="https://img.shields.io/badge/Pricing-tiered-success?style=flat-square" /></a>
@@ -90,23 +91,34 @@ All 43 v1 endpoints, grouped by domain:
 | **Aggregators** | `/daily` · `/compatibility` · `/events` |
 | **Utility** | `/geocode` · `/openapi.json` |
 
-Every method is typed end-to-end. No `interface{}`, no magic strings.
+Inputs are typed (`Person`, `NatalChartOpts`, `AspectPoint`); responses currently decode as `map[string]any` to match the API's rich, endpoint-specific shapes. Typed response structs are on the roadmap as the OpenAPI 3.1 spec stabilizes.
 
 ---
+
+## Examples
+
+Runnable examples live in [`examples/`](./examples):
+
+```bash
+export TUFFYS_API_KEY="eyJ..."
+go run ./examples/natal       # natal chart with typed error handling
+go run ./examples/transits    # transits from a natal chart
+go run ./examples/positions   # stateless body positions
+```
 
 ## Design principles
 
 - **Zero runtime dependencies.** Embed this in anything — serverless, edge, CLI, bot — without dragging a graph.
 - **Context-first.** Every method takes `context.Context`. Cancel anywhere in the tree.
 - **Errors are data.** `*tuffys.APIError` carries the HTTP status, the machine-readable code, and a human message.
-- **Idiomatic options.** Functional options (`WithAPIKey`, `WithHTTPClient`, `WithUserAgent`) — swap out the transport for tracing, retries, or testing.
+- **Idiomatic options.** Functional options (`WithAPIKey`, `WithHTTPClient`) — swap out the transport for tracing, retries, or testing.
 - **Strict input parsing on the server.** ISO-8601 datetimes required — no ambiguous local times. Pair with Go's `time.Time.Format(time.RFC3339)` and you're set.
 
 ---
 
 ## Related
 
-- **[Main repository](https://github.com/omkarjaliparthi/tuffys-ai-astrology)** — engine, API, frontend, case study
+- **[Case study](https://github.com/omkarjaliparthi/insights-astrology-api-case-study)** — architecture, decisions, accuracy, sources
 - **[TypeScript SDK](https://www.npmjs.com/package/tuffys-astrology)** — published on npm
 - **[Python SDK](https://pypi.org/project/tuffys-astrology/)** — published on PyPI
 - **[API docs](https://tuffys-ai-astrology.vercel.app/docs/api)** — interactive Scalar explorer
