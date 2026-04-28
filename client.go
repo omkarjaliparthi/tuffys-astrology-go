@@ -1,16 +1,16 @@
-// Package tuffys is the Go client for Tuffy's Astrology API.
+// Package kriya is the Go client for Kriya — the Insights Astrology API by Insights by Omkar.
 //
 // Zero runtime dependencies beyond the standard library.
 //
 // Basic usage:
 //
-//	client := tuffys.New("https://your-host", tuffys.WithAPIKey("..."))
-//	chart, err := client.NatalChart(ctx, tuffys.Person{
+//	client := kriya.New("https://your-host", kriya.WithAPIKey("..."))
+//	chart, err := client.NatalChart(ctx, kriya.Person{
 //	    Datetime:  "1990-06-15T12:00:00Z",
 //	    Latitude:  51.5,
 //	    Longitude: 0,
 //	})
-package tuffys
+package kriya
 
 import (
 	"bytes"
@@ -44,7 +44,7 @@ func WithHTTPClient(h *http.Client) Option {
 	return func(c *Client) { c.httpClient = h }
 }
 
-// New constructs a Client pointing at baseURL (e.g. "https://tuffys.example.com").
+// New constructs a Client pointing at baseURL (e.g. "https://kriya.example.com").
 func New(baseURL string, opts ...Option) *Client {
 	c := &Client{
 		baseURL:    strings.TrimRight(baseURL, "/"),
@@ -65,7 +65,7 @@ type APIError struct {
 }
 
 func (e *APIError) Error() string {
-	return fmt.Sprintf("tuffys API %d %s: %s", e.Status, e.Code, e.Message)
+	return fmt.Sprintf("kriya API %d %s: %s", e.Status, e.Code, e.Message)
 }
 
 type apiErrorEnvelope struct {
@@ -121,7 +121,7 @@ func (c *Client) do(ctx context.Context, method, path string, body, out any) err
 			env.Error.Status = resp.StatusCode
 			return &env.Error
 		}
-		return errors.New(fmt.Sprintf("tuffys API %d: %s", resp.StatusCode, string(raw)))
+		return errors.New(fmt.Sprintf("kriya API %d: %s", resp.StatusCode, string(raw)))
 	}
 	if out != nil && len(raw) > 0 {
 		return json.Unmarshal(raw, out)

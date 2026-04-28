@@ -1,3 +1,3 @@
-module github.com/omkarjaliparthi/tuffys-astrology-go
+module github.com/omkarjaliparthi/kriya-go
 
 go 1.21

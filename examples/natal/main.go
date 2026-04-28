@@ -11,7 +11,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/omkarjaliparthi/tuffys-astrology-go/tuffys"
+	"github.com/omkarjaliparthi/kriya-go"
 )
 
 func main() {
@@ -26,19 +26,19 @@ func main() {
 		baseURL = "https://kriya.insightsbyomkar.com"
 	}
 
-	client := tuffys.New(baseURL, tuffys.WithAPIKey(apiKey))
+	client := kriya.New(baseURL, kriya.WithAPIKey(apiKey))
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	chart, err := client.NatalChart(ctx, tuffys.Person{
+	chart, err := client.NatalChart(ctx, kriya.Person{
 		Datetime:  "1990-06-15T12:00:00Z",
 		Latitude:  51.5074,
 		Longitude: -0.1278,
-	}, tuffys.NatalChartOpts{HouseSystem: "placidus"})
+	}, kriya.NatalChartOpts{HouseSystem: "placidus"})
 
 	if err != nil {
-		var apiErr *tuffys.APIError
+		var apiErr *kriya.APIError
 		if errors.As(err, &apiErr) {
 			fmt.Fprintf(os.Stderr, "API %d %s: %s\n", apiErr.Status, apiErr.Code, apiErr.Message)
 			os.Exit(1)

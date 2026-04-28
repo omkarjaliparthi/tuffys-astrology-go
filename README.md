@@ -1,14 +1,12 @@
 # Kriya — Go SDK
 
-Official Go client for [**Kriya**](https://kriya.insightsbyomkar.com) — the Insights Astrology API by Insights by Omkar (formerly *Tuffys*). A commercial astronomy API covering **109+ v1 endpoints** across Western, Vedic, Hellenistic, Jaimini, KP, and electional traditions. Computed from first principles on a home-grown VSOP87D + ELP2000 + DOPRI8 engine.
-
-> **Module path note.** The Go module path is still `github.com/omkarjaliparthi/tuffys-astrology-go/tuffys` for backward compatibility with existing imports. The product brand is now Kriya; the underlying repo and module path will be migrated in a future major version.
+Official Go client for [**Kriya**](https://kriya.insightsbyomkar.com) — the Insights Astrology API by Insights by Omkar. A commercial astronomy API covering **109+ v1 endpoints** across Western, Vedic, Hellenistic, Jaimini, KP, and electional traditions. Computed from first principles on a home-grown VSOP87D + ELP2000 + DOPRI8 engine.
 
 **Zero runtime dependencies.** Only `net/http` and `encoding/json` from the standard library.
 
 <p align="center">
-  <a href="https://github.com/omkarjaliparthi/tuffys-astrology-go/actions/workflows/ci.yml"><img src="https://github.com/omkarjaliparthi/tuffys-astrology-go/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://pkg.go.dev/github.com/omkarjaliparthi/tuffys-astrology-go/tuffys"><img src="https://img.shields.io/badge/pkg.go.dev-docs-007d9c?style=flat-square" /></a>
+  <a href="https://github.com/omkarjaliparthi/kriya-go/actions/workflows/ci.yml"><img src="https://github.com/omkarjaliparthi/kriya-go/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://pkg.go.dev/github.com/omkarjaliparthi/kriya-go"><img src="https://img.shields.io/badge/pkg.go.dev-docs-007d9c?style=flat-square" /></a>
   <a href="https://kriya.insightsbyomkar.com/docs/api"><img src="https://img.shields.io/badge/API_docs-Scalar-6E56CF?style=flat-square" /></a>
   <a href="https://kriya.insightsbyomkar.com/pricing"><img src="https://img.shields.io/badge/Pricing-tiered-success?style=flat-square" /></a>
   <img src="https://img.shields.io/badge/Go-1.21%2B-00ADD8?style=flat-square" />
@@ -21,7 +19,7 @@ Official Go client for [**Kriya**](https://kriya.insightsbyomkar.com) — the In
 ## Install
 
 ```bash
-go get github.com/omkarjaliparthi/tuffys-astrology-go/tuffys@latest
+go get github.com/omkarjaliparthi/kriya-go@latest
 ```
 
 Requires Go 1.21+. See [`SETUP.md`](./SETUP.md) for publishing internals.
@@ -38,21 +36,21 @@ import (
     "errors"
     "fmt"
 
-    "github.com/omkarjaliparthi/tuffys-astrology-go/tuffys"
+    "github.com/omkarjaliparthi/kriya-go"
 )
 
 func main() {
-    client := tuffys.New("https://kriya.insightsbyomkar.com",
-        tuffys.WithAPIKey("YOUR_JWT_HERE"),
+    client := kriya.New("https://kriya.insightsbyomkar.com",
+        kriya.WithAPIKey("YOUR_JWT_HERE"),
     )
 
-    chart, err := client.NatalChart(context.Background(), tuffys.Person{
+    chart, err := client.NatalChart(context.Background(), kriya.Person{
         Datetime:  "1990-06-15T12:00:00Z", // strict ISO-8601, no naive locals
         Latitude:  51.5,
         Longitude: 0,
     })
     if err != nil {
-        var apiErr *tuffys.APIError
+        var apiErr *kriya.APIError
         if errors.As(err, &apiErr) {
             fmt.Printf("API %d %s: %s\n", apiErr.Status, apiErr.Code, apiErr.Message)
             return
@@ -63,7 +61,7 @@ func main() {
 }
 ```
 
-Errors surface as `*tuffys.APIError` with `Status`, `Code`, `Message`, `Details` — safe to unwrap with `errors.As`.
+Errors surface as `*kriya.APIError` with `Status`, `Code`, `Message`, `Details` — safe to unwrap with `errors.As`.
 
 ---
 
@@ -72,7 +70,7 @@ Errors surface as `*tuffys.APIError` with `Status`, `Code`, `Message`, `Details`
 The API uses stateless HS256 JWTs. Each key encodes its own per-minute + per-day quotas — no round-trip to a key-store, horizontally scalable out of the box. Pass your key once at client construction:
 
 ```go
-client := tuffys.New(baseURL, tuffys.WithAPIKey(os.Getenv("KRIYA_API_KEY")))
+client := kriya.New(baseURL, kriya.WithAPIKey(os.Getenv("KRIYA_API_KEY")))
 ```
 
 See the [API docs](https://kriya.insightsbyomkar.com/docs/api) for key minting + tier quotas.
@@ -117,7 +115,7 @@ go run ./examples/positions   # stateless body positions
 
 - **Zero runtime dependencies.** Embed this in anything — serverless, edge, CLI, bot — without dragging a graph.
 - **Context-first.** Every method takes `context.Context`. Cancel anywhere in the tree.
-- **Errors are data.** `*tuffys.APIError` carries the HTTP status, the machine-readable code, and a human message.
+- **Errors are data.** `*kriya.APIError` carries the HTTP status, the machine-readable code, and a human message.
 - **Idiomatic options.** Functional options (`WithAPIKey`, `WithHTTPClient`) — swap out the transport for tracing, retries, or testing.
 - **Strict input parsing on the server.** ISO-8601 datetimes required — no ambiguous local times. Pair with Go's `time.Time.Format(time.RFC3339)` and you're set.
 

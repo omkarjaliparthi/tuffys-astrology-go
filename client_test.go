@@ -1,4 +1,4 @@
-package tuffys
+package kriya
 
 import (
 	"context"
