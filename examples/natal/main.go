@@ -1,6 +1,6 @@
 // Example: compute a natal chart with typed error handling.
 //
-//	TUFFYS_API_KEY=eyJ... go run ./examples/natal
+//	KRIYA_API_KEY=eyJ... go run ./examples/natal
 package main
 
 import (
@@ -15,15 +15,15 @@ import (
 )
 
 func main() {
-	apiKey := os.Getenv("TUFFYS_API_KEY")
+	apiKey := os.Getenv("KRIYA_API_KEY")
 	if apiKey == "" {
-		fmt.Fprintln(os.Stderr, "set TUFFYS_API_KEY — mint one at https://tuffys-ai-astrology.vercel.app/pricing")
+		fmt.Fprintln(os.Stderr, "set KRIYA_API_KEY — mint one at https://kriya.insightsbyomkar.com/pricing")
 		os.Exit(1)
 	}
 
-	baseURL := os.Getenv("TUFFYS_BASE_URL")
+	baseURL := os.Getenv("KRIYA_BASE_URL")
 	if baseURL == "" {
-		baseURL = "https://tuffys-ai-astrology.vercel.app"
+		baseURL = "https://kriya.insightsbyomkar.com"
 	}
 
 	client := tuffys.New(baseURL, tuffys.WithAPIKey(apiKey))

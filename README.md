@@ -1,14 +1,16 @@
-# Insights Astrology — Go SDK
+# Kriya — Go SDK
 
-Official Go client for the [Insights Astrology API](https://tuffys-ai-astrology.vercel.app) — a commercial astronomy API covering all 43 endpoints across Western, Vedic, Hellenistic, and electional traditions. Computed from first principles on a home-grown VSOP87D + ELP2000 engine.
+Official Go client for [**Kriya**](https://kriya.insightsbyomkar.com) — the Insights Astrology API by Insights by Omkar (formerly *Tuffys*). A commercial astronomy API covering **109+ v1 endpoints** across Western, Vedic, Hellenistic, Jaimini, KP, and electional traditions. Computed from first principles on a home-grown VSOP87D + ELP2000 + DOPRI8 engine.
+
+> **Module path note.** The Go module path is still `github.com/omkarjaliparthi/tuffys-astrology-go/tuffys` for backward compatibility with existing imports. The product brand is now Kriya; the underlying repo and module path will be migrated in a future major version.
 
 **Zero runtime dependencies.** Only `net/http` and `encoding/json` from the standard library.
 
 <p align="center">
   <a href="https://github.com/omkarjaliparthi/tuffys-astrology-go/actions/workflows/ci.yml"><img src="https://github.com/omkarjaliparthi/tuffys-astrology-go/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://pkg.go.dev/github.com/omkarjaliparthi/tuffys-astrology-go/tuffys"><img src="https://img.shields.io/badge/pkg.go.dev-docs-007d9c?style=flat-square" /></a>
-  <a href="https://tuffys-ai-astrology.vercel.app/docs/api"><img src="https://img.shields.io/badge/API_docs-Scalar-6E56CF?style=flat-square" /></a>
-  <a href="https://tuffys-ai-astrology.vercel.app/pricing"><img src="https://img.shields.io/badge/Pricing-tiered-success?style=flat-square" /></a>
+  <a href="https://kriya.insightsbyomkar.com/docs/api"><img src="https://img.shields.io/badge/API_docs-Scalar-6E56CF?style=flat-square" /></a>
+  <a href="https://kriya.insightsbyomkar.com/pricing"><img src="https://img.shields.io/badge/Pricing-tiered-success?style=flat-square" /></a>
   <img src="https://img.shields.io/badge/Go-1.21%2B-00ADD8?style=flat-square" />
   <img src="https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square" />
   <img src="https://img.shields.io/badge/Dependencies-zero-brightgreen?style=flat-square" />
@@ -40,7 +42,7 @@ import (
 )
 
 func main() {
-    client := tuffys.New("https://tuffys-ai-astrology.vercel.app",
+    client := tuffys.New("https://kriya.insightsbyomkar.com",
         tuffys.WithAPIKey("YOUR_JWT_HERE"),
     )
 
@@ -70,26 +72,31 @@ Errors surface as `*tuffys.APIError` with `Status`, `Code`, `Message`, `Details`
 The API uses stateless HS256 JWTs. Each key encodes its own per-minute + per-day quotas — no round-trip to a key-store, horizontally scalable out of the box. Pass your key once at client construction:
 
 ```go
-client := tuffys.New(baseURL, tuffys.WithAPIKey(os.Getenv("ASTROLOGY_API_KEY")))
+client := tuffys.New(baseURL, tuffys.WithAPIKey(os.Getenv("KRIYA_API_KEY")))
 ```
 
-See the [API docs](https://tuffys-ai-astrology.vercel.app/docs/api) for key minting + tier quotas.
+See the [API docs](https://kriya.insightsbyomkar.com/docs/api) for key minting + tier quotas.
 
 ---
 
 ## Endpoint coverage
 
-All 43 v1 endpoints, grouped by domain:
+**109+ v1 endpoints** across these domains. Grew from a 43-endpoint v1 launch (2026-04-15) to current scope across nine semver versions of disciplined iteration.
 
-| Domain | Endpoints |
+| Domain | Examples |
 |---|---|
-| **Western** | `/chart/natal` · `/chart/extended` · `/positions` · `/houses` · `/aspects` · `/harmonic` · `/dignities` · `/asteroids` · `/fixed-stars` |
-| **Vedic** | `/vedic/chart` · `/vedic/panchanga` · `/dashas` · `/chara-karakas` · `/yogas` · `/muhurta` · `/ashtakavarga` · `/shadbala` · `/kp-sublords` |
-| **Hellenistic** | `/profections` · `/zodiacal-releasing` · `/planetary-nodes` · `/true-node` |
-| **Relational** | `/transits` · `/synastry` · `/composite` · `/progressions` · `/returns/solar` · `/returns/lunar` |
-| **Electional / events** | `/eclipses` · `/eclipses/prenatal` · `/planetary-hours` · `/voc-moon` · `/sun-rise-set` |
-| **Aggregators** | `/daily` · `/compatibility` · `/events` |
-| **Utility** | `/geocode` · `/openapi.json` |
+| **Western core** | `/chart/natal` · `/chart/wheel` · `/chart/extended` · `/transits` · `/transits/scan` · `/synastry` · `/composite` · `/composite/davison` · `/progressions` · `/returns/solar` · `/returns/lunar` · `/relocation` · `/harmonic` · `/draconic` |
+| **Vedic** | `/vedic/chart` · `/vedic/panchanga` · `/vedic/varshaphala` · `/vedic/sade-sati` · `/vedic/yogas` · `/vargas` · `/dashas` · `/ashtakavarga` · `/shadbala` · `/chara-karakas` |
+| **Jaimini** | `/jaimini/arudhas` · `/jaimini/aspects` · `/jaimini/chara-dasha` · `/jaimini/narayana-dasha` |
+| **KP** | `/kp-sublords` · `/kp/cuspal-interlinks` · `/kp/ruling-planets` · `/kp/significators` |
+| **Hellenistic** | `/profections` · `/zodiacal-releasing` · `/lots` · `/sensitive-points` |
+| **Points & geometry** | `/positions` · `/aspects` · `/aspect-events` · `/pattern-events` · `/midpoints` · `/antiscia` · `/declinations` · `/lunar-mansions` · `/degrees/analyze` |
+| **Electional / events** | `/muhurta` · `/eclipses` · `/eclipses/prenatal` · `/voc-moon` · `/planetary-hours` · `/stations` · `/sign-ingresses` · `/heliacal` · `/parans` · `/sun-rise-set` |
+| **Bodies** | `/asteroids` · `/asteroids/extended` · `/fixed-stars` · `/stars/list` · `/bodies/extended` · `/heliocentric` · `/uranian` |
+| **LLM-grounded** | `/reading/natal` · `/reading/transit` · `/reading/vedic` · `/ask-chart` · `/compatibility/narrative` |
+| **Developer / admin** | `/keys/me` · `/keys/rotate` · `/usage/me` · `/jobs` · `/jobs/[id]` · `/webhooks` · `/accuracy` · `/calibrate` · `/openapi.json` |
+
+Full live endpoint manifest at [`/openapi.json`](https://kriya.insightsbyomkar.com/openapi.json) or the [interactive Scalar docs](https://kriya.insightsbyomkar.com/docs/api).
 
 Inputs are typed (`Person`, `NatalChartOpts`, `AspectPoint`); responses currently decode as `map[string]any` to match the API's rich, endpoint-specific shapes. Typed response structs are on the roadmap as the OpenAPI 3.1 spec stabilizes.
 
@@ -100,7 +107,7 @@ Inputs are typed (`Person`, `NatalChartOpts`, `AspectPoint`); responses currentl
 Runnable examples live in [`examples/`](./examples):
 
 ```bash
-export TUFFYS_API_KEY="eyJ..."
+export KRIYA_API_KEY="eyJ..."
 go run ./examples/natal       # natal chart with typed error handling
 go run ./examples/transits    # transits from a natal chart
 go run ./examples/positions   # stateless body positions
@@ -119,10 +126,10 @@ go run ./examples/positions   # stateless body positions
 ## Related
 
 - **[Case study](https://github.com/omkarjaliparthi/insights-astrology-api-case-study)** — architecture, decisions, accuracy, sources
-- **[TypeScript SDK](https://www.npmjs.com/package/tuffys-astrology)** — published on npm
-- **[Python SDK](https://pypi.org/project/tuffys-astrology/)** — published on PyPI
-- **[API docs](https://tuffys-ai-astrology.vercel.app/docs/api)** — interactive Scalar explorer
-- **[Pricing](https://tuffys-ai-astrology.vercel.app/pricing)** — Developer (free) · Studio ($49/mo) · Scale (custom)
+- **[TypeScript SDK](https://www.npmjs.com/package/insightsbyomkar)** — `npm install insightsbyomkar`
+- **[Python SDK](https://pypi.org/project/insightsbyomkar/)** — `pip install insightsbyomkar`
+- **[API docs](https://kriya.insightsbyomkar.com/docs/api)** — interactive Scalar explorer
+- **[Pricing](https://kriya.insightsbyomkar.com/pricing)** — Developer (free) · Studio ($49/mo) · Scale (custom)
 
 ---
 

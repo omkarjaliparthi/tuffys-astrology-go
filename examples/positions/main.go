@@ -1,6 +1,6 @@
 // Example: geocentric ecliptic positions of selected bodies at a given UTC instant.
 //
-//	TUFFYS_API_KEY=eyJ... go run ./examples/positions
+//	KRIYA_API_KEY=eyJ... go run ./examples/positions
 package main
 
 import (
@@ -15,15 +15,15 @@ import (
 )
 
 func main() {
-	apiKey := os.Getenv("TUFFYS_API_KEY")
+	apiKey := os.Getenv("KRIYA_API_KEY")
 	if apiKey == "" {
-		fmt.Fprintln(os.Stderr, "set TUFFYS_API_KEY")
+		fmt.Fprintln(os.Stderr, "set KRIYA_API_KEY")
 		os.Exit(1)
 	}
 
-	baseURL := os.Getenv("TUFFYS_BASE_URL")
+	baseURL := os.Getenv("KRIYA_BASE_URL")
 	if baseURL == "" {
-		baseURL = "https://tuffys-ai-astrology.vercel.app"
+		baseURL = "https://kriya.insightsbyomkar.com"
 	}
 
 	client := tuffys.New(baseURL, tuffys.WithAPIKey(apiKey))
