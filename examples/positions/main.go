@@ -11,7 +11,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/omkarjaliparthi/kriya-go"
+	"github.com/insights-by-omkar/kriya-go"
 )
 
 func main() {

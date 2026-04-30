@@ -5,8 +5,8 @@ Official Go client for [**Kriya**](https://kriya.insightsbyomkar.com) — the In
 **Zero runtime dependencies.** Only `net/http` and `encoding/json` from the standard library.
 
 <p align="center">
-  <a href="https://github.com/omkarjaliparthi/kriya-go/actions/workflows/ci.yml"><img src="https://github.com/omkarjaliparthi/kriya-go/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://pkg.go.dev/github.com/omkarjaliparthi/kriya-go"><img src="https://img.shields.io/badge/pkg.go.dev-docs-007d9c?style=flat-square" /></a>
+  <a href="https://github.com/insights-by-omkar/kriya-go/actions/workflows/ci.yml"><img src="https://github.com/insights-by-omkar/kriya-go/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://pkg.go.dev/github.com/insights-by-omkar/kriya-go"><img src="https://img.shields.io/badge/pkg.go.dev-docs-007d9c?style=flat-square" /></a>
   <a href="https://kriya.insightsbyomkar.com/docs/api"><img src="https://img.shields.io/badge/API_docs-Scalar-6E56CF?style=flat-square" /></a>
   <a href="https://kriya.insightsbyomkar.com/pricing"><img src="https://img.shields.io/badge/Pricing-tiered-success?style=flat-square" /></a>
   <img src="https://img.shields.io/badge/Go-1.21%2B-00ADD8?style=flat-square" />
@@ -19,7 +19,7 @@ Official Go client for [**Kriya**](https://kriya.insightsbyomkar.com) — the In
 ## Install
 
 ```bash
-go get github.com/omkarjaliparthi/kriya-go@latest
+go get github.com/insights-by-omkar/kriya-go@latest
 ```
 
 Requires Go 1.21+. See [`SETUP.md`](./SETUP.md) for publishing internals.
@@ -36,7 +36,7 @@ import (
     "errors"
     "fmt"
 
-    "github.com/omkarjaliparthi/kriya-go"
+    "github.com/insights-by-omkar/kriya-go"
 )
 
 func main() {
