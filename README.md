@@ -123,11 +123,11 @@ go run ./examples/positions   # stateless body positions
 
 ## Related
 
-- **[Case study](https://github.com/omkarjaliparthi/insights-astrology-api-case-study)** — architecture, decisions, accuracy, sources
+- **[Case study](https://github.com/Insights-By-Omkar/insights-astrology-api-case-study)** — architecture, decisions, accuracy, sources
 - **[TypeScript SDK](https://www.npmjs.com/package/kriya-astrology)** — `npm install kriya-astrology`
 - **[Python SDK](https://pypi.org/project/kriya-astrology/)** — `pip install kriya-astrology`
 - **[API docs](https://kriya.insightsbyomkar.com/docs/api)** — interactive Scalar explorer
-- **[Pricing](https://kriya.insightsbyomkar.com/pricing)** — Developer (free) · Studio ($49/mo) · Scale (custom)
+- **[Pricing](https://kriya.insightsbyomkar.com/pricing)** — Free · Kriya Pro ($49/mo) · Kriya Max ($149/mo) · Enterprise (custom)
 
 ---
 
